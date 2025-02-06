@@ -1,0 +1,103 @@
+corr_df = df_tracks.drop(["key", "mode", "explicit"], axis=1).corr(method="pearson")
+plt.figure(figsize=(14, 6))
+heatmap = sns.heatmap(corr_df, annot = True, fmt = ".1g", vmin = -1, vmax = 1, center = 0, cmap = "inferno", linewidth = 1, linecolor = "Black")
+heatmap.set_title("Correlation HeatMap Between Variable")
+heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation = 90)
+
+ValueError: could not convert string to float: '35iwgR4jXetI318WEWsa1Q'
+
+==============================
+
+The error message you're encountering suggests that one of the columns in your `df_tracks` DataFrame contains a string that cannot be converted to a float, likely the column containing track IDs or some non-numeric values. The `corr` function requires numeric values, so you need to ensure that only numeric columns are passed for correlation computation.
+
+To fix this, you can:
+1. Drop any non-numeric columns before computing the correlation matrix.
+2. Ensure that all values in the DataFrame are numeric before applying the `.corr()` function.
+
+Here's the corrected code:
+
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Select only numeric columns for correlation
+numeric_df = df_tracks.select_dtypes(include=[float, int])
+
+# Compute the correlation matrix
+corr_df = numeric_df.corr(method="pearson")
+
+# Plot the heatmap
+plt.figure(figsize=(14, 6))
+heatmap = sns.heatmap(corr_df, annot=True, fmt=".1g", vmin=-1, vmax=1, center=0, cmap="inferno", linewidth=1, linecolor="Black")
+heatmap.set_title("Correlation HeatMap Between Variables")
+heatmap.set_xticklabels(heatmap.get_xticklabels(), rotation=90)
+plt.show()
+```
+
+### Key Fixes:
+1. **Selecting only numeric columns**: I used `df_tracks.select_dtypes(include=[float, int])` to select only columns with numeric data types before calculating the correlation matrix.
+2. **Plotting**: The rest of the code for plotting the heatmap remains the same, just applied after filtering for numeric columns.
+
+==============================================
+
+# Create new column Year from Release date
+
+df_tracks['dates'] = df_tracks.index.get_level_values('release_date')
+df_tracks.dates = pd.to_datetime(df_tracks.dates)
+years = df_tracks.dates.dt.year
+print(years)
+
+ValueError: time data "1922" doesn't match format "%Y-%m-%d", at position 3. You might want to try:
+    - passing format if your strings have a consistent format;
+    - passing format='ISO8601' if your strings are all ISO8601 but not necessarily in exactly the same format;
+    - passing format='mixed', and the format will be inferred for each element individually. You might want to use dayfirst alongside this.
+
+===========================
+
+It seems that your `release_date` data might contain different formats (e.g., "1922" vs. a full date like "1922-05-13"), which is causing the issue when `pd.to_datetime()` tries to infer the format.
+
+To handle this, you can use `errors='coerce'` in `pd.to_datetime()`, which will convert the invalid date formats into `NaT` (Not a Time). Also, for year-only formats like "1922", you might want to explicitly handle those cases by inferring just the year if the data looks like it’s in that format.
+
+Here’s the updated code:
+
+```python
+import pandas as pd
+
+# Assuming 'df_tracks' is already defined and contains the release_date index
+df_tracks['dates'] = df_tracks.index.get_level_values('release_date')
+
+# Try converting to datetime, handle errors where necessary
+df_tracks['dates'] = pd.to_datetime(df_tracks['dates'], errors='coerce', format='%Y-%m-%d', utc=True)
+
+# For cases where only the year is provided (e.g., '1922'), set the datetime format to year only
+df_tracks['dates'] = pd.to_datetime(df_tracks['dates'], errors='coerce', format='%Y', utc=True)
+
+# Extract the year from the 'dates' column
+df_tracks['Year'] = df_tracks['dates'].dt.year
+
+print(df_tracks['Year'])
+```
+
+Explanation:
+1. `errors='coerce'` will handle incorrect date formats gracefully and turn them into `NaT`.
+2. I used two `pd.to_datetime()` calls: one to try converting full date formats and one to convert year-only data.
+
+===========================================
+
+# Now, we are going to see Duration of songs over the Years
+
+total_dr = df_tracks.duration
+fig_dims = (18, 7)
+fig, ax = plt.subplot(figsize = fig_dims)
+fig = sns.barplot(x = years, y = total_dr, ax = ax, errwidth = False).set(title = "Year vs Duration")
+plt.xticks(rotation= 90)
+
+AttributeError: Axes.set() got an unexpected keyword argument 'figsize'
+
+=================================
+
+
+
+
+
+
