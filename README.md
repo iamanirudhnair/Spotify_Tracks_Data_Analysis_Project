@@ -4,11 +4,11 @@ This project is inspired by the Simplilearn tutorial on **Spotify Data Analysis 
 
 You can watch the full tutorial [here](https://www.youtube.com/watch?v=8d7ywKCm6HI&ab_channel=Simplilearn).
 
-https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Years%20Vs%20Total%20Duration.png?raw=true
+![image_alt](https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Years%20Vs%20Total%20Duration.png?raw=true)
 
-https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Duration%20of%20Songs%20in%20Different%20Genres.png?raw=true
+![image_alt](https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Duration%20of%20Songs%20in%20Different%20Genres.png?raw=true)
 
-https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Correlation%20Heatmaps%20between%20Variables.png?raw=true
+![image_alt](https://github.com/iamanirudhnair/Spotify_Tracks_Data_Analysis_Project/blob/main/Correlation%20Heatmaps%20between%20Variables.png?raw=true)
 
 ## Key Learnings
 
